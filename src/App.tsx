@@ -2,7 +2,15 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
+export class Todo {
+  constructor(public id: number, public name: string, public isComplete: boolean) { }
+}
+
+export interface AppProps {
+  todos: Todo[]
+}
+
+function App({ todos }: AppProps) {
   return (
     <div className="App">
       <header className="App-header">
@@ -17,15 +25,11 @@ function App() {
         </form>
         <div className="Todo-List">
           <ul>
-            <li>
-              <input type="checkbox" /> Create Static UI
-            </li>
-            <li>
-              <input type="checkbox" /> Create Initial State
-            </li>
-            <li>
-              <input type="checkbox" /> Use State to Render UI
-            </li>
+            {todos.map(todo => (
+              <li key={todo.id}>
+                <input type="checkbox" defaultChecked={todo.isComplete} /> {todo.name}
+              </li>
+            ))}
           </ul>
         </div>
       </div>
