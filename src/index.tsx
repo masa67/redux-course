@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App, { Todo } from './App';
+import App from './App';
+import { Todo } from './components/TodoList';
 import * as serviceWorker from './serviceWorker';
 
 const state = {

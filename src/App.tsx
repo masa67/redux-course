@@ -1,10 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-
-export class Todo {
-  constructor(public id: number, public name: string, public isComplete: boolean) { }
-}
+import TodoForm from './components/TodoForm';
+import TodoList, { Todo } from './components/TodoList';
 
 export interface AppProps {
   todos: Todo[]
@@ -20,18 +18,8 @@ function App({ todos }: AppProps) {
         </p>
       </header>
       <div className="Todo-App">
-        <form>
-          <input type="text" />
-        </form>
-        <div className="Todo-List">
-          <ul>
-            {todos.map(todo => (
-              <li key={todo.id}>
-                <input type="checkbox" defaultChecked={todo.isComplete} /> {todo.name}
-              </li>
-            ))}
-          </ul>
-        </div>
+        <TodoForm />
+        <TodoList todos={todos}/>
       </div>
     </div>
   );
