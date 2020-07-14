@@ -1,11 +1,11 @@
 import { Reducer } from "react";
 
 export class Todo {
-    constructor(public id: number, public name: string, public isComplete: boolean) {}
+    constructor(public id: number, public name: string, public isComplete: boolean) { }
 }
 
 export class TodoState {
-    constructor(public todos: Todo[]) {}
+    constructor(public todos: Todo[]) { }
 }
 
 export enum TodoActionType {
@@ -17,12 +17,18 @@ export interface TodoAction {
     payload: Todo
 }
 
-const initState = new TodoState([]);
+const initState = {
+    todos: [
+        { id: 1, name: 'create a store', isComplete: true },
+        { id: 2, name: 'load state through the store', isComplete: true },
+        { id: 3, name: 'handle state changes with redux', isComplete: false },
+    ]
+};
 
-export default (state: TodoState = initState, action: TodoAction) =>{
+export default (state: TodoState = initState, action: TodoAction) => {
     switch (action.type) {
         case TodoActionType.TODO_ADD:
-            return { ...state, todos: state.todos.concat(action.payload)}
+            return { ...state, todos: state.todos.concat(action.payload) }
             break;
         default:
             return state

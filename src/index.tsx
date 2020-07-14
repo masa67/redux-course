@@ -4,18 +4,13 @@ import './index.css';
 import App from './App';
 import { Todo } from './components/TodoList';
 import * as serviceWorker from './serviceWorker';
+import store from './store'
 
-const state = {
-  todos: [
-      {id: 1, name: 'Render static UI', isComplete: true},
-      {id: 2, name: 'Create initial state', isComplete: true},
-      {id: 3, name: 'Render based on state', isComplete: true},
-  ]
-}
+const state = store.getState()
 
 ReactDOM.render(
   <React.StrictMode>
-    <App todos={state.todos}/>
+    <App {...state}/>
   </React.StrictMode>,
   document.getElementById('root')
 );
