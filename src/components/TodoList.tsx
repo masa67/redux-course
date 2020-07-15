@@ -17,7 +17,8 @@ export class Todo {
 }
 
 export interface TodoListProps {
-    todos: Todo[]
+    todos: Todo[],
+    currentTodo: string
 }
 
 export default ({ todos }: TodoListProps) => (

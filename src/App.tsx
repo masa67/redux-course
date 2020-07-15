@@ -5,10 +5,12 @@ import TodoForm from './components/TodoForm';
 import TodoList, { Todo } from './components/TodoList';
 
 export interface AppProps {
-  todos: Todo[]
+  todos: Todo[],
+  currentTodo: string,
+  changeCurrent: (val: string) => void
 }
 
-function App({ todos }: AppProps) {
+function App({ todos, currentTodo, changeCurrent }: AppProps) {
   return (
     <div className="App">
       <header className="App-header">
@@ -18,8 +20,8 @@ function App({ todos }: AppProps) {
         </p>
       </header>
       <div className="Todo-App">
-        <TodoForm />
-        <TodoList todos={todos}/>
+        <TodoForm currentTodo={currentTodo} changeCurrent={changeCurrent} />
+        <TodoList todos={todos} currentTodo={currentTodo} />
       </div>
     </div>
   );
