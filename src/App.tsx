@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import logo from './logo.svg';
 import './App.css';
 import TodoForm from './components/TodoForm';
@@ -27,4 +28,6 @@ function App({ todos, currentTodo, changeCurrent }: AppProps) {
   );
 }
 
-export default App;
+const mapStateToProps = (state: AppProps) => state
+const ConnectedApp = connect(mapStateToProps)(App)
+export default ConnectedApp
