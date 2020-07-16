@@ -5,6 +5,7 @@ import './App.css';
 import TodoForm from './components/TodoForm';
 import TodoList, { Todo } from './components/TodoList';
 import { render } from 'react-dom';
+import { TodoState } from './reducers/todo';
 
 export interface AppProps {
   todos: Todo[],
@@ -32,6 +33,6 @@ class App extends Component<AppProps, {}>
   }
 }
 
-const mapStateToProps = (state: AppProps) => state
+const mapStateToProps = (state: TodoState) => state
 const ConnectedApp = connect(mapStateToProps)(App)
 export default ConnectedApp
