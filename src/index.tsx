@@ -5,16 +5,17 @@ import App from './App';
 import { Todo } from './components/TodoList';
 import * as serviceWorker from './serviceWorker';
 import store from './store'
-import { TodoActionType, updateCurrent } from './reducers/todo';
+import { Dispatch, bindActionCreators, AnyAction } from 'redux'
+import { TodoAction, TodoActionType, updateCurrent } from './reducers/todo';
 
-const todoChangeHandler = (val: string) => store.dispatch(updateCurrent(val))
+const actions = bindActionCreators({updateCurrent}, store.dispatch as Dispatch<AnyAction>)
 
 const render = () => {
   const state = store.getState()
 
   ReactDOM.render(
     <React.StrictMode>
-      <App todos={state.todos} currentTodo={state.currentTodo} changeCurrent={todoChangeHandler}/>
+      <App todos={state.todos} currentTodo={state.currentTodo} changeCurrent={actions.updateCurrent}/>
     </React.StrictMode>,
     document.getElementById('root')
   );
