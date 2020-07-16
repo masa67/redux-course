@@ -1,8 +1,10 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import logo from './logo.svg';
 import './App.css';
 import TodoForm from './components/TodoForm';
 import TodoList, { Todo } from './components/TodoList';
+import { TodoState } from './reducers/todo';
 
 export interface AppProps {
   todos: Todo[],
@@ -27,4 +29,6 @@ function App({ todos, currentTodo, changeCurrent }: AppProps) {
   );
 }
 
-export default App;
+const mapStateToProps = (state: TodoState) => state
+const ConnectedApp = connect(mapStateToProps)(App)
+export default ConnectedApp
