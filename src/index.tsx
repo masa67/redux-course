@@ -5,12 +5,9 @@ import App from './App';
 import { Todo } from './components/TodoList';
 import * as serviceWorker from './serviceWorker';
 import store from './store'
-import { TodoActionType } from './reducers/todo';
+import { TodoActionType, updateCurrent } from './reducers/todo';
 
-const todoChangeHandler = (val: string) => store.dispatch({
-  type: TodoActionType.CURRENT_UPDATE,
-  payload: val
-})
+const todoChangeHandler = (val: string) => store.dispatch(updateCurrent(val))
 
 const render = () => {
   const state = store.getState()

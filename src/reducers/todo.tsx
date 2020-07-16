@@ -27,6 +27,8 @@ const initState = {
     currentTodo: ''
 };
 
+export const updateCurrent = (val: string) => ({type: TodoActionType.CURRENT_UPDATE, payload: val})
+
 export default (state: TodoState = initState, action: TodoAction) => {
     switch (action.type) {
         case TodoActionType.TODO_ADD:
