@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import TodoForm from './components/TodoForm';
 import TodoList, { Todo } from './components/TodoList';
+import { render } from 'react-dom';
 
 export interface AppProps {
   todos: Todo[],
@@ -10,21 +11,24 @@ export interface AppProps {
   changeCurrent: (val: string) => void
 }
 
-function App({ todos, currentTodo, changeCurrent }: AppProps) {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Welcome to React with Redux.
+class App extends Component<AppProps, {}>
+{
+  render() {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <p>
+            Welcome to React with Redux.
         </p>
-      </header>
-      <div className="Todo-App">
-        <TodoForm currentTodo={currentTodo} changeCurrent={changeCurrent} />
-        <TodoList todos={todos} currentTodo={currentTodo} />
+        </header>
+        <div className="Todo-App">
+          <TodoForm currentTodo={this.props.currentTodo} changeCurrent={this.props.changeCurrent} />
+          <TodoList todos={this.props.todos} currentTodo={this.props.currentTodo} />
+        </div>
       </div>
-    </div>
-  );
+    )
+  }
 }
 
 export default App;
