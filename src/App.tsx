@@ -1,18 +1,20 @@
 import React from 'react';
+import { AnyAction, bindActionCreators, Dispatch } from 'redux'
 import {connect} from 'react-redux';
 import logo from './logo.svg';
 import './App.css';
 import TodoForm from './components/TodoForm';
 import TodoList, { Todo } from './components/TodoList';
 import { TodoState } from './reducers/todo';
+import { updateCurrent } from './reducers/todo';
 
 export interface AppProps {
   todos: Todo[],
   currentTodo: string,
-  changeCurrent: (val: string) => void
+  updateCurrent: (val: string) => void
 }
 
-function App({ todos, currentTodo, changeCurrent }: AppProps) {
+function App({ todos, currentTodo, updateCurrent }: AppProps) {
   return (
     <div className="App">
       <header className="App-header">
@@ -22,13 +24,16 @@ function App({ todos, currentTodo, changeCurrent }: AppProps) {
         </p>
       </header>
       <div className="Todo-App">
-        <TodoForm currentTodo={currentTodo} changeCurrent={changeCurrent} />
+        <TodoForm currentTodo={currentTodo} changeCurrent={updateCurrent} />
         <TodoList todos={todos} currentTodo={currentTodo} />
       </div>
     </div>
   );
 }
 
+
 const mapStateToProps = (state: TodoState) => state
-const ConnectedApp = connect(mapStateToProps)(App)
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => bindActionCreators({ updateCurrent }, dispatch)
+
+const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App)
 export default ConnectedApp

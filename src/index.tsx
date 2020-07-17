@@ -6,14 +6,11 @@ import App from './App';
 import { Todo } from './components/TodoList';
 import * as serviceWorker from './serviceWorker';
 import store from './store'
-import { Dispatch, bindActionCreators, AnyAction } from 'redux'
-import { TodoAction, TodoActionType, updateCurrent } from './reducers/todo';
-
-const actions = bindActionCreators({ updateCurrent }, store.dispatch as Dispatch<AnyAction>)
+import { TodoAction, TodoActionType } from './reducers/todo';
 
 ReactDOM.render(
   <Provider store={store}>
-    <App changeCurrent={actions.updateCurrent} />
+    <App />
   </Provider>,
   document.getElementById('root')
 );
