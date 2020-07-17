@@ -1,0 +1,9 @@
+{
+    "todos": [
+        {"id": 1, "name": "configure", "isComplete": false},
+        {"id": 2, "name": "start", "isComplete": false},
+        {"id": 3, "name": "load", "isComplete": false},
+        {"id": 4, "name": "add", "isComplete": false},
+        {"id": 5, "name": "update", "isComplete": false}
+    ]
+}
