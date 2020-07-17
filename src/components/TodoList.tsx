@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { TodoState } from '../reducers/todo';
 
 interface TodoItemProps {
     id: number,
@@ -17,14 +19,17 @@ export class Todo {
 }
 
 export interface TodoListProps {
-    todos: Todo[],
-    currentTodo: string
+    todos: Todo[]
 }
 
-export default ({ todos }: TodoListProps) => (
+const TodoList = ({ todos }: TodoListProps) => (
     <div className="Todo-List">
         <ul>
             {todos.map(todo => <TodoItem key={todo.id} {...todo} />)}
         </ul>
     </div>
 )
+
+export default connect(
+    (state: TodoState) => ({todos: state.todos})
+)(TodoList)
