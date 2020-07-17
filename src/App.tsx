@@ -31,9 +31,7 @@ function App({ todos, currentTodo, updateCurrent }: AppProps) {
   );
 }
 
-
-const mapStateToProps = (state: TodoState) => state
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => bindActionCreators({ updateCurrent }, dispatch)
-
-const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App)
-export default ConnectedApp
+export default connect(
+  (state: TodoState) => state,
+  { updateCurrent }
+)(App)
