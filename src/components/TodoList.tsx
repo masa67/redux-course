@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { TodoState } from '../reducers/todo';
+import { TodoState, fetchTodos } from '../reducers/todo';
 
 interface TodoItemProps {
     id: number,
@@ -19,17 +19,27 @@ export class Todo {
 }
 
 export interface TodoListProps {
-    todos: Todo[]
+    todos: Todo[],
+    fetchTodos: () => void
 }
 
-const TodoList = ({ todos }: TodoListProps) => (
-    <div className="Todo-List">
-        <ul>
-            {todos.map(todo => <TodoItem key={todo.id} {...todo} />)}
-        </ul>
-    </div>
-)
+class TodoList extends Component<TodoListProps, {}> {
+    componentDidMount() {
+        this.props.fetchTodos()
+    }
+
+    render() {
+        return (
+            <div className="Todo-List">
+                <ul>
+                    {this.props.todos.map(todo => <TodoItem key={todo.id} {...todo} />)}
+                </ul>
+            </div>
+        )
+    }
+}
 
 export default connect(
-    (state: TodoState) => ({todos: state.todos})
+    (state: TodoState) => ({ todos: state.todos }),
+    { fetchTodos }
 )(TodoList)
