@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
+import Message from './components/Message';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         </p>
       </header>
       <div className="Todo-App">
+        <Message />
         <TodoForm />
         <TodoList />
       </div>
