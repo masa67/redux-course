@@ -1,5 +1,5 @@
-import { Reducer, Dispatch } from "react";
-import { getTodos } from '../lib/todoServices'
+import { Dispatch } from "react";
+import { createTodo, getTodos } from '../lib/todoServices'
 
 export class Todo {
     constructor(public id: number, public name: string, public isComplete: boolean) { }
@@ -27,27 +27,28 @@ const initState = {
 
 export const updateCurrent = (val: string) => ({type: TodoActionType.CURRENT_UPDATE, payload: val})
 export const loadTodos = (todos: Todo[]) => ({type: TodoActionType.TODOS_LOAD, payload: todos})
+export const addTodo = (todo: string) => ({type: TodoActionType.TODO_ADD, payload: todo})
 export const fetchTodos = () => { 
     return (dispatch: Dispatch<TodoAction>) => {
         getTodos()
             .then(todos => dispatch(loadTodos(todos)))
     }
 }
+export const saveTodo = (name: string) => {
+    return (dispatch: Dispatch<TodoAction>) => {
+        createTodo(name)
+            .then(res => dispatch(addTodo(res)))
+    }
+}
 
 export default (state: TodoState = initState, action: TodoAction) => {
     switch (action.type) {
         case TodoActionType.TODO_ADD:
-            if (action.payload instanceof Todo) {
-                return { ...state, todos: state.todos.concat(action.payload) }
-            }
-            break;
+            return { ...state, currentTodo: '', todos: state.todos.concat(action.payload as Todo) }
         case TodoActionType.TODOS_LOAD:
             return { ...state, todos: action.payload as Todo[]}
-            break;
         case TodoActionType.CURRENT_UPDATE:
-            if (typeof action.payload === 'string') {
-                return { ...state, currentTodo: action.payload}
-            }
+            return { ...state, currentTodo: action.payload as string}
     }
 
     return state

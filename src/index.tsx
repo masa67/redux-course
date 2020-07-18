@@ -3,10 +3,8 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import './index.css';
 import App from './App';
-import { Todo } from './components/TodoList';
 import * as serviceWorker from './serviceWorker';
 import store from './store'
-import { TodoAction, TodoActionType } from './reducers/todo';
 
 ReactDOM.render(
   <Provider store={store}>
