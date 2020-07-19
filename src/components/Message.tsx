@@ -1,7 +1,13 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { ApplicationState } from '../store'
 
 export interface MessageProps {
     message?: string
+}
+
+export interface MessageState {
+    message: string;
 }
 
 const Message = ({message}: MessageProps) => (
@@ -10,4 +16,6 @@ const Message = ({message}: MessageProps) => (
         : null
 )
 
-export default Message
+export default connect(
+    (state: ApplicationState) => ({message: state.message.message})
+)(Message)

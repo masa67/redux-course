@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { TodoState, updateCurrent, saveTodo } from '../reducers/todo';
+import { updateCurrent, saveTodo } from '../reducers/todo';
+import { ApplicationState } from '../store'
 
 export interface TodoFormProps {
     currentTodo: string,
@@ -30,6 +31,6 @@ class TodoForm extends Component<TodoFormProps, {}> {
 }
 
 export default connect(
-    (state: TodoState) => ({ currentTodo: state.currentTodo }),
+    (state: ApplicationState) => ({ currentTodo: state.todo.currentTodo }),
     { updateCurrent, saveTodo }
 )(TodoForm)

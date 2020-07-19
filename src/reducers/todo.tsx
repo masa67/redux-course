@@ -1,5 +1,6 @@
 import { Dispatch } from "react";
 import { createTodo, getTodos } from '../lib/todoServices'
+import { showMessage } from './messages'
 
 export class Todo {
     constructor(public id: number, public name: string, public isComplete: boolean) { }
@@ -35,7 +36,8 @@ export const fetchTodos = () => {
     }
 }
 export const saveTodo = (name: string) => {
-    return (dispatch: Dispatch<TodoAction>) => {
+    return (dispatch: Dispatch<any>) => {
+        dispatch(showMessage('Saving Todo'))
         createTodo(name)
             .then(res => dispatch(addTodo(res)))
     }

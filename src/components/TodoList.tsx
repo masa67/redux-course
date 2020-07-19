@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { TodoState, fetchTodos } from '../reducers/todo';
+import { fetchTodos } from '../reducers/todo';
+import { ApplicationState } from '../store';
 
 interface TodoItemProps {
     id: number,
@@ -40,6 +41,6 @@ class TodoList extends Component<TodoListProps, {}> {
 }
 
 export default connect(
-    (state: TodoState) => ({ todos: state.todos }),
+    (state: ApplicationState) => ({ todos: state.todo.todos }),
     { fetchTodos }
 )(TodoList)
