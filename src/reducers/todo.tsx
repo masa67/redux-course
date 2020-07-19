@@ -53,10 +53,8 @@ export const saveTodo = (name: string) => {
     }
 }
 export const toggleTodo = (id: number) => {
-    debugger
-    return (dispatch: Dispatch<any> /*, getState: () => ApplicationState */) => {
-        debugger
-        const {todos} = {todos: [] as Todo[]} //; getState().todo
+    return (dispatch: Dispatch<any>, getState: () => ApplicationState) => {
+        const {todos} = getState().todo
         const todo = todos.find(t => t.id === id)
         if (todo) {
             dispatch(showMessage('Saving Todo update'))
