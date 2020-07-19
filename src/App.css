@@ -41,6 +41,7 @@
   padding-top: 35px;
   display: inline-block;
   text-align: left;
+  position: relative;
 }
 
 input {
@@ -64,5 +65,5 @@ li {
   width: 200px;
   left: 50%;
   margin-left: -100px;
-  top: 304px;
+  top: 6px;
 }
