@@ -30,16 +30,23 @@ export const updateCurrent = (val: string) => ({type: TodoActionType.CURRENT_UPD
 export const loadTodos = (todos: Todo[]) => ({type: TodoActionType.TODOS_LOAD, payload: todos})
 export const addTodo = (todo: string) => ({type: TodoActionType.TODO_ADD, payload: todo})
 export const fetchTodos = () => { 
-    return (dispatch: Dispatch<TodoAction>) => {
+    return (dispatch: Dispatch<any>) => {
+        dispatch(showMessage('Loading Todos'))
         getTodos()
-            .then(todos => dispatch(loadTodos(todos)))
+            .then(todos => {
+                dispatch(showMessage(''));
+                return dispatch(loadTodos(todos));
+            })
     }
 }
 export const saveTodo = (name: string) => {
     return (dispatch: Dispatch<any>) => {
         dispatch(showMessage('Saving Todo'))
         createTodo(name)
-            .then(res => dispatch(addTodo(res)))
+            .then(res => {
+                dispatch(showMessage(''));
+                return dispatch(addTodo(res));
+            })
     }
 }
 
