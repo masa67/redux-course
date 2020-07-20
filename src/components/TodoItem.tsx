@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { toggleTodo } from '../reducers/todo';
+import { toggleTodo, deleteTodo } from '../reducers/todo';
 import { ApplicationState } from '../store';
 
 export interface TodoItemProps {
@@ -8,10 +8,14 @@ export interface TodoItemProps {
     name: string,
     isComplete: boolean,
     toggleTodo: (id: number) => void
+    deleteTodo: (id: number) => void
 }
 
-const TodoItem = ({ id, name, isComplete, toggleTodo }: TodoItemProps) => (
+const TodoItem = ({ id, name, isComplete, toggleTodo, deleteTodo }: TodoItemProps) => (
     <li>
+        <span className='delete-item'>
+            <button onClick={() => deleteTodo(id)}>X</button>
+        </span>
         <input type="checkbox"
             checked={isComplete}
             onChange={() => toggleTodo(id)} /> {name}
@@ -20,7 +24,7 @@ const TodoItem = ({ id, name, isComplete, toggleTodo }: TodoItemProps) => (
 
 export default connect(
     (state: ApplicationState) => ({}),
-    { toggleTodo }
+    { toggleTodo, deleteTodo }
 )(TodoItem)
 
 

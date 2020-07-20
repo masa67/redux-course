@@ -1,5 +1,5 @@
 import { Dispatch } from "react";
-import { createTodo, getTodos, updateTodo } from '../lib/todoServices'
+import { createTodo, getTodos, updateTodo, destroyTodo } from '../lib/todoServices'
 import { showMessage } from './messages'
 import { ApplicationState } from '../store'
 
@@ -15,12 +15,13 @@ export enum TodoActionType {
     TODO_ADD = 'TODO_ADD',
     TODOS_LOAD = 'TODOS_LOAD',
     CURRENT_UPDATE = 'CURRENT_UPDATE',
-    TODO_REPLACE = 'TODO_REPLACE'
+    TODO_REPLACE = 'TODO_REPLACE',
+    TODO_REMOVE = 'TODO_REMOVE'
 }
 
 export interface TodoAction {
     type: TodoActionType,
-    payload: Todo[] | Todo | string
+    payload: Todo[] | Todo | string | number
 }
 
 const initState = {
@@ -32,6 +33,8 @@ export const updateCurrent = (val: string) => ({type: TodoActionType.CURRENT_UPD
 export const loadTodos = (todos: Todo[]) => ({type: TodoActionType.TODOS_LOAD, payload: todos})
 export const addTodo = (todo: string) => ({type: TodoActionType.TODO_ADD, payload: todo})
 export const replaceTodo = (todo: Todo) => ({type: TodoActionType.TODO_REPLACE, payload: todo})
+export const removeTodo = (id: number) => ({type: TodoActionType.TODO_REMOVE, payload: id})
+
 export const fetchTodos = () => { 
     return (dispatch: Dispatch<any>) => {
         dispatch(showMessage('Loading Todos'))
@@ -42,16 +45,18 @@ export const fetchTodos = () => {
             })
     }
 }
+
 export const saveTodo = (name: string) => {
     return (dispatch: Dispatch<any>) => {
         dispatch(showMessage('Saving Todo'))
         createTodo(name)
             .then(res => {
                 dispatch(showMessage(''));
-                return dispatch(addTodo(res));
+                dispatch(addTodo(res));
             })
     }
 }
+
 export const toggleTodo = (id: number) => {
     return (dispatch: Dispatch<any>, getState: () => ApplicationState) => {
         const {todos} = getState().todo
@@ -62,9 +67,20 @@ export const toggleTodo = (id: number) => {
             updateTodo(toggled)
                 .then(res => {
                     dispatch(showMessage(''));
-                    return dispatch(replaceTodo(res));
+                    dispatch(replaceTodo(res));
                 })
         }
+    }
+}
+
+export const deleteTodo = (id: number) => {
+    return (dispatch: Dispatch<any>) => {
+        dispatch(showMessage('Removing Todo'))
+        destroyTodo(id)
+            .then(() => {
+                dispatch(showMessage(''));
+                dispatch(removeTodo(id))
+            })
     }
 }
 
@@ -79,7 +95,11 @@ export default (state: TodoState = initState, action: TodoAction) => {
         case TodoActionType.TODO_REPLACE:
             return { ...state,
                 todos: state.todos.map(t => t.id === (action.payload as Todo).id ? action.payload : t )
-            }            
+            }
+        case TodoActionType.TODO_REMOVE:
+            return { ...state,
+                todos: state.todos.filter(t => t.id !== action.payload)
+            }
     }
 
     return state
