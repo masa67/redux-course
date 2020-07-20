@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import TodoItem from './TodoItem';
-import { fetchTodos } from '../reducers/todo';
+import { fetchTodos, getVisibleTodos, FilterType } from '../reducers/todo';
 import { ApplicationState } from '../store';
 
 export class Todo {
@@ -11,6 +11,10 @@ export class Todo {
 export interface TodoListProps {
     todos: Todo[],
     fetchTodos: () => void,
+}
+
+export interface TodoListOwnProps {
+    filter: string
 }
 
 class TodoList extends Component<TodoListProps, {}> {
@@ -32,6 +36,9 @@ class TodoList extends Component<TodoListProps, {}> {
 }
 
 export default connect(
-    (state: ApplicationState) => ({ todos: state.todo.todos }),
+    (state: ApplicationState, ownProps: TodoListOwnProps) => {
+        let filter = ownProps.filter ? ownProps.filter.toUpperCase() : 'ALL';
+        return { todos: getVisibleTodos(state.todo.todos, FilterType[filter as keyof typeof FilterType])}
+    },
     { fetchTodos }
 )(TodoList)

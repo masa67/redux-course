@@ -24,18 +24,24 @@ export interface TodoAction {
     payload: Todo[] | Todo | string | number
 }
 
+export enum FilterType {
+    ALL = 'ALL',
+    ACTIVE = 'ACTIVE',
+    COMPLETED = 'COMPLETED'
+}
+
 const initState = {
     todos: [],
     currentTodo: ''
 };
 
-export const updateCurrent = (val: string) => ({type: TodoActionType.CURRENT_UPDATE, payload: val})
-export const loadTodos = (todos: Todo[]) => ({type: TodoActionType.TODOS_LOAD, payload: todos})
-export const addTodo = (todo: string) => ({type: TodoActionType.TODO_ADD, payload: todo})
-export const replaceTodo = (todo: Todo) => ({type: TodoActionType.TODO_REPLACE, payload: todo})
-export const removeTodo = (id: number) => ({type: TodoActionType.TODO_REMOVE, payload: id})
+export const updateCurrent = (val: string) => ({ type: TodoActionType.CURRENT_UPDATE, payload: val })
+export const loadTodos = (todos: Todo[]) => ({ type: TodoActionType.TODOS_LOAD, payload: todos })
+export const addTodo = (todo: string) => ({ type: TodoActionType.TODO_ADD, payload: todo })
+export const replaceTodo = (todo: Todo) => ({ type: TodoActionType.TODO_REPLACE, payload: todo })
+export const removeTodo = (id: number) => ({ type: TodoActionType.TODO_REMOVE, payload: id })
 
-export const fetchTodos = () => { 
+export const fetchTodos = () => {
     return (dispatch: Dispatch<any>) => {
         dispatch(showMessage('Loading Todos'))
         getTodos()
@@ -59,7 +65,7 @@ export const saveTodo = (name: string) => {
 
 export const toggleTodo = (id: number) => {
     return (dispatch: Dispatch<any>, getState: () => ApplicationState) => {
-        const {todos} = getState().todo
+        const { todos } = getState().todo
         const todo = todos.find(t => t.id === id)
         if (todo) {
             dispatch(showMessage('Saving Todo update'))
@@ -84,20 +90,33 @@ export const deleteTodo = (id: number) => {
     }
 }
 
+export const getVisibleTodos = (todos: Todo[], filter: FilterType) => {
+    switch (filter) {
+        case FilterType.ACTIVE:
+            return todos.filter(t => !t.isComplete);
+        case FilterType.COMPLETED:
+            return todos.filter(t => t.isComplete);
+        default:
+            return todos
+    }
+}
+
 export default (state: TodoState = initState, action: TodoAction) => {
     switch (action.type) {
         case TodoActionType.TODO_ADD:
             return { ...state, currentTodo: '', todos: state.todos.concat(action.payload as Todo) }
         case TodoActionType.TODOS_LOAD:
-            return { ...state, todos: action.payload as Todo[]}
+            return { ...state, todos: action.payload as Todo[] }
         case TodoActionType.CURRENT_UPDATE:
-            return { ...state, currentTodo: action.payload as string}
+            return { ...state, currentTodo: action.payload as string }
         case TodoActionType.TODO_REPLACE:
-            return { ...state,
-                todos: state.todos.map(t => t.id === (action.payload as Todo).id ? action.payload : t )
+            return {
+                ...state,
+                todos: state.todos.map(t => t.id === (action.payload as Todo).id ? action.payload : t)
             }
         case TodoActionType.TODO_REMOVE:
-            return { ...state,
+            return {
+                ...state,
                 todos: state.todos.filter(t => t.id !== action.payload)
             }
     }
